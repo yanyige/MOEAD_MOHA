@@ -71,13 +71,13 @@ void MOEAD::InitializeWeightVector() {
 		for (int ii = 0; ii < NumberOfObj; ii++) {
 			indata >> subp.WeightVector.lambda[ii];
 		}
-		subp.WeightVector.Show();
+		//subp.WeightVector.Show();
 		CurrentPopulation.push_back(subp);
 	}
 
 	indata.close();
 
-	cout << "权重向量初始化完毕" << endl;
+	cout << " 权重向量初始化完毕" << endl;
 }
 
 void MOEAD::InitializeNeighborhood() {
@@ -100,7 +100,7 @@ void MOEAD::InitializeNeighborhood() {
 }
 
 void MOEAD::InitializePopulation() {
-	for (int iPop = 0; iPop < CurrentPopulation.size(); iPop++) {
+	for (int iPop = 0; iPop < (int)CurrentPopulation.size(); iPop++) {
 		CurrentPopulation[iPop].CurrentSolution.Randomize();
 		CurrentPopulation[iPop].CurrentSolution.Repair();
 
@@ -114,7 +114,7 @@ void MOEAD::UpdateSecondPopulation(Individual &ind) {
 
 	ind.Evaluate();
 	int iCount = 0;
-	for (int n = 0; n<SecondPopulation.size(); n++) {
+	for (int n = 0; n<(int)SecondPopulation.size(); n++) {
 
 		if (ind == SecondPopulation[n])
 			return;
@@ -131,7 +131,7 @@ void MOEAD::UpdateSecondPopulation(Individual &ind) {
 		}
 	}
 
-	for (int n = 0; n<SecondPopulation.size(); n++) {
+	for (int n = 0; n<(int)SecondPopulation.size(); n++) {
 		if (SecondPopulation[n].dominated) {
 			SecondPopulation.erase(SecondPopulation.begin() + n);
 			n--;
@@ -144,17 +144,16 @@ void MOEAD::UpdateSecondPopulation(Individual &ind) {
 // compare the offspring solution with its neighhoring solutions
 void MOEAD::UpdateNeighboringSolution(Individual &offspring, int iPop) {
 	for (int n = 0; n<NeighborhoodSize; n++) {
-		double f11, f12, f21, f22;
 		double id = CurrentPopulation[iPop].IndexOfNeighbor[n];    // the index of neighboring subproblem
 		offspring.Evaluate();  // fitness of the offspring
 		CurrentPopulation[id].CurrentSolution.Evaluate();  // fitness of neighbors
-		f11 = offspring.makespan;
-		f12 = offspring.workload;
-		f21 = CurrentPopulation[id].CurrentSolution.makespan;
-		f22 = CurrentPopulation[id].CurrentSolution.workload;
+		double f11 = offspring.makespan;
+		double f12 = offspring.workload;
+		double f21 = CurrentPopulation[id].CurrentSolution.makespan;
+		double f22 = CurrentPopulation[id].CurrentSolution.workload;
 
-		cout << "f11:" << f11 << " f21:" << f21 << endl;
-		cout << "f12:" << f12 << " f22:" << f22 << endl;
+		/*cout << "f11:" << f11 << " f21:" << f21 << endl;
+		cout << "f12:" << f12 << " f22:" << f22 << endl;*/
 																																	  // if offspring is better, then update the neighbor
 		if (f11<=f21 && f12<=f22) {
 			CurrentPopulation[id].CurrentSolution = offspring;
@@ -164,20 +163,29 @@ void MOEAD::UpdateNeighboringSolution(Individual &offspring, int iPop) {
 
 void MOEAD::SaveSecondPopulation() {
 	char saveFilename[1024];
-	sprintf_s(saveFilename, "POF/POF_MOEAD_KS%d%d_R%d.dat", NumberOfTasks, NumberOfObj, run_id);
+	char *p;
+	char *pNext;
+	char temp[1024];
+	strcpy_s(temp, FileName);
+	p = strtok_s(FileName, "/", &pNext);
+	p = strtok_s(NULL, "/", &pNext);
+	p = strtok_s(p, ".", &pNext);
+	strcpy_s(FileName, temp);
+	sprintf_s(saveFilename, "Results/%s-machine%d-cycle%d-generation%d-population%d.dat", p, NumberOfMachine, MyCycle, Generation, Population);
 	std::fstream fout;
 	fout.open(saveFilename, std::ios::out);
-	for (int n = 0; n<SecondPopulation.size(); n++) {
-		for (int k = 0; k<NumberOfObj; k++) {
-			fout << SecondPopulation[n].workload << " ";
-		}
-		fout << "\n";
+	fout << "*****************" << saveFilename << "**************" << endl;
+	for (int n = 0; n<(int)SecondPopulation.size(); n++) {
+		fout << "makespan:" << SecondPopulation[n].makespan << " ";
+		fout << "workload:" << SecondPopulation[n].workload << " " << endl;
 	}
+	fout << "********************************************************" << endl;
 	fout.close();
+	cout << " 保存POF正常,已经保存至" << saveFilename << endl;
 }
 
 void MOEAD::ShowSecondPopulation() {
-	for (int n = 0; n<SecondPopulation.size(); n++) {
+	for (int n = 0; n<(int)SecondPopulation.size(); n++) {
 		cout << "makespan:" << SecondPopulation[n].makespan << " ";
 		cout << "workload:" << SecondPopulation[n].workload << " ";
 		cout << "\n";
@@ -198,7 +206,7 @@ void MOEAD::Run(int fevals) {
 
 	int gen = 1;
 
-	cout << "main" << NumberOfFuncEvals << " "<< endl;
+	//cout << "main" << NumberOfFuncEvals << " "<< endl;
 	while (NumberOfFuncEvals < MaxNumOfFuncEvals) {
 		gen++;
 
@@ -229,12 +237,13 @@ void MOEAD::Run(int fevals) {
 			this->UpdateNeighboringSolution(offspring, iPop);
 
 			NumberOfFuncEvals++;
+			//cout << NumberOfFuncEvals << endl;
 
 			if (NumberOfFuncEvals >= MaxNumOfFuncEvals) break;
 
 		}
 	}
 
-	this->ShowSecondPopulation();
+	this->SaveSecondPopulation();
 
 }

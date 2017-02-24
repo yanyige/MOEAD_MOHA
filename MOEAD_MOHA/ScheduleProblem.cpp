@@ -10,8 +10,11 @@ ScheduleProblem::~ScheduleProblem() {
 
 bool ScheduleProblem::LoadInstance(char *fileName) {
 
-	printf("begin!");
+	//printf("begin!");
 	fstream Stream(fileName, ios::in);
+
+	cout << "***************************************************" << endl;
+	cout << " 开始读取: " << fileName << endl;
 
 	for (int i = 0; i < NumberOfTasks; i++) {
 		Stream >> t[0][i];
@@ -53,7 +56,7 @@ bool ScheduleProblem::LoadInstance(char *fileName) {
 	}
 
 
-	printf("\n Load Schedule Problem [ %s ] OK ! \n", fileName);
+	printf(" 读取 Schedule Problem [ %s ] OK ! \n", fileName);
 
 	/***************initialize******************/
 	//检查初始化结果

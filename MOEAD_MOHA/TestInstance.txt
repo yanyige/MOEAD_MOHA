@@ -1,1 +1,7 @@
 testcase/TMNR.dat 1 2 14 3 100 30
+testcase/MWD.dat 1 2 12 3 100 30
+testcase/FFT_butterfly.dat 1 2 32 2 100 30
+testcase/FFT_loop.dat 1 2 28 2 100 30
+testcase/h264_14.dat 1 2 14 2 100 30
+testcase/mp3_decoder.dat 1 2 10 3 100 30
+testcase/MP3_decoder_16.dat 1 2 16 3 100 30

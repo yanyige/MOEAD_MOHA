@@ -3,7 +3,7 @@
 #include "MOEAD.h"
 
 void main() {
-	int MaxNumberOfRuns = 1;
+	int MaxNumberOfRuns = 100;
 
 	ifstream indata;
 
@@ -29,7 +29,7 @@ void main() {
 
 		for (int run = 1; run <= MaxNumberOfRuns; run++) {
 			run_id = run;
-
+			cout << FileName << endl;
 			MOEAD moead;
 			moead.Run(500);
 		}
