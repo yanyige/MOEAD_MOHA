@@ -1,0 +1,1 @@
+testcase/TMNR.dat 1 2 14 3 100 30

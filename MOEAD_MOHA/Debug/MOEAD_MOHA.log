@@ -1,0 +1,11 @@
+﻿  MOEAD.cpp
+d:\code\moead\moead_mine\moead_moha\moead_moha\moead.cpp(103): warning C4018: “<”: 有符号/无符号不匹配
+d:\code\moead\moead_mine\moead_moha\moead_moha\moead.cpp(117): warning C4018: “<”: 有符号/无符号不匹配
+d:\code\moead\moead_mine\moead_moha\moead_moha\moead.cpp(134): warning C4018: “<”: 有符号/无符号不匹配
+d:\code\moead\moead_mine\moead_moha\moead_moha\moead.cpp(150): warning C4244: “参数”: 从“double”转换到“unsigned int”，可能丢失数据
+d:\code\moead\moead_mine\moead_moha\moead_moha\moead.cpp(153): warning C4244: “参数”: 从“double”转换到“unsigned int”，可能丢失数据
+d:\code\moead\moead_mine\moead_moha\moead_moha\moead.cpp(154): warning C4244: “参数”: 从“double”转换到“unsigned int”，可能丢失数据
+d:\code\moead\moead_mine\moead_moha\moead_moha\moead.cpp(160): warning C4244: “参数”: 从“double”转换到“unsigned int”，可能丢失数据
+d:\code\moead\moead_mine\moead_moha\moead_moha\moead.cpp(170): warning C4018: “<”: 有符号/无符号不匹配
+d:\code\moead\moead_mine\moead_moha\moead_moha\moead.cpp(180): warning C4018: “<”: 有符号/无符号不匹配
+  MOEAD_MOHA.vcxproj -> D:\Code\MOEAd\MOEAD_MINE\MOEAD_MOHA\Debug\MOEAD_MOHA.exe
