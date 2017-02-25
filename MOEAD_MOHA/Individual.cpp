@@ -370,3 +370,15 @@ bool Individual::operator==(const Individual& ind) {
 	}
 	return true;
 }
+
+double Individual::ComputingFitnessValue(vector<double> &lambda, char *strFuncType) {
+	double fitness;
+
+	if (!strcmp(strFuncType, "_WEIGHTEDSUM")) {
+		fitness = 0;
+		fitness += lambda[0] * (ReferencePoint[0] - this->makespan);
+		fitness += lambda[1] * (ReferencePoint[1] - this->workload);
+	}
+
+	return fitness;
+}

@@ -1,2 +1,4 @@
-﻿  moead_main.cpp
+﻿  Individual.cpp
+Individual.cpp(335): warning C4018: “<”: 有符号/无符号不匹配
+Individual.cpp(339): warning C4018: “<”: 有符号/无符号不匹配
   MOEAD_MOHA.vcxproj -> D:\Code\MOEAd\MOEAD_MINE\MOEAD_MOHA\Release\MOEAD_MOHA.exe

@@ -103,7 +103,8 @@ void MOEAD::InitializePopulation() {
 	for (int iPop = 0; iPop < (int)CurrentPopulation.size(); iPop++) {
 		CurrentPopulation[iPop].CurrentSolution.Randomize();
 		CurrentPopulation[iPop].CurrentSolution.Repair();
-
+		/*cout << "*************************初始化的结果******************************" << endl;
+		CurrentPopulation[iPop].CurrentSolution.Show();*/
 		UpdateReferencePoint(CurrentPopulation[iPop].CurrentSolution);
 		NumberOfFuncEvals++;
 	}
@@ -147,15 +148,13 @@ void MOEAD::UpdateNeighboringSolution(Individual &offspring, int iPop) {
 		double id = CurrentPopulation[iPop].IndexOfNeighbor[n];    // the index of neighboring subproblem
 		offspring.Evaluate();  // fitness of the offspring
 		CurrentPopulation[id].CurrentSolution.Evaluate();  // fitness of neighbors
-		double f11 = offspring.makespan;
-		double f12 = offspring.workload;
-		double f21 = CurrentPopulation[id].CurrentSolution.makespan;
-		double f22 = CurrentPopulation[id].CurrentSolution.workload;
+		double f1 = offspring.ComputingFitnessValue(CurrentPopulation[id].WeightVector.lambda, "_WEIGHTEDSUM");  // fitness of the offspring
+		double f2 = CurrentPopulation[id].CurrentSolution.ComputingFitnessValue(CurrentPopulation[id].WeightVector.lambda, "_WEIGHTEDSUM");  // fitness of neighbors
 
 		/*cout << "f11:" << f11 << " f21:" << f21 << endl;
 		cout << "f12:" << f12 << " f22:" << f22 << endl;*/
 																																	  // if offspring is better, then update the neighbor
-		if (f11<=f21 && f12<=f22) {
+		if (f1 < f2) {
 			CurrentPopulation[id].CurrentSolution = offspring;
 		}
 	}
@@ -175,9 +174,11 @@ void MOEAD::SaveSecondPopulation() {
 	std::fstream fout;
 	fout.open(saveFilename, std::ios::out);
 	fout << "*****************" << saveFilename << "**************" << endl;
+	cout << "*****************" << "精英种群的结果" << "**************" << endl;
 	for (int n = 0; n<(int)SecondPopulation.size(); n++) {
 		fout << "makespan:" << SecondPopulation[n].makespan << " ";
 		fout << "workload:" << SecondPopulation[n].workload << " " << endl;
+		SecondPopulation[n].Show();
 	}
 	fout << "********************************************************" << endl;
 	fout.close();

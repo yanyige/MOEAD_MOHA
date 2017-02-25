@@ -31,6 +31,8 @@ public:
 
 	void UniformCrossover(Individual &parent1, Individual &parent2);
 
+	double ComputingFitnessValue(vector<double> &lambda, char *strFuncType);
+
 private:
 	/***************Warning******************/
 	//**这一块可以拿出来,暂时不改
